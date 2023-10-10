@@ -1,0 +1,34 @@
+{
+  "name": "docker-boilerplate",
+  "version": "1.0.0",
+  "description": "small boilerplate to test with using docker",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app/index.js",
+    "build": "npm run build:assets",
+    "build:assets": "sass app/src/styles/main.scss:app/public/css/main.min.css --style compressed && mkdir app/public/js && uglifyjs app/src/js/main.js -o app/public/js/main.min.js",
+    "dev": "npm run build:assets && nodemon app/index.js",
+    "prod": "npm run build:assets && node app/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wbarahona/docker-boilerplate.git"
+  },
+  "author": "Wilmer Barahona",
+  "license": "ISC OR GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/wbarahona/docker-boilerplate/issues"
+  },
+  "homepage": "https://github.com/wbarahona/docker-boilerplate#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "sass": "^1.69.2",
+    "uglify-js": "^3.17.4"
+  }
+}
