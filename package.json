@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node app/index.js",
     "build": "npm run build:assets",
-    "build:assets": "sass app/src/styles/main.scss:app/public/css/main.min.css --style compressed && mkdir app/public/js && uglifyjs app/src/js/main.js -o app/public/js/main.min.js",
+    "build:css": "sass app/src/styles/main.scss:app/public/css/main.min.css --style compressed",
+    "build:js": "mkdirp app/public/js && uglifyjs app/src/js/main.js -o app/public/js/main.min.js",
+    "build:html": "node app/compile-hbs.js",
+    "build:assets": "npm run build:css && npm run build:js && npm run build:html",
     "dev": "npm run build:assets && nodemon app/index.js",
     "prod": "npm run build:assets && node app/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +30,7 @@
     "handlebars": "^4.7.8"
   },
   "devDependencies": {
+    "mkdirp": "^3.0.1",
     "nodemon": "^3.0.1",
     "sass": "^1.69.2",
     "uglify-js": "^3.17.4"
