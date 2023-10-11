@@ -1,11 +1,19 @@
 const fs = require('fs');
 const handlebars = require('handlebars');
 const path = require('path');
+const minify = require('html-minifier').minify;
 
 const sourceDir = 'app/src/views'; // Directory containing hbs files
 const outputDir = 'app/public'; // Directory where HTML files will be saved
 const partialsDir = path.join(sourceDir, 'partials'); // Directory containing partials
 const layoutDir = path.join(sourceDir, 'layouts'); // Directory containing layout templates
+
+const minifyOptions = {
+  removeComments: true,
+  collapseWhitespace: true,
+  minifyJS: true,
+  minifyCSS: true,
+};
 
 // Read all hbs files in the source directory
 const hbsFiles = fs.readdirSync(sourceDir).filter(file => path.extname(file) === '.hbs');
@@ -42,6 +50,9 @@ hbsFiles.forEach(file => {
   const template = handlebars.compile(layout({ body: pageSource }));
   const html = template(/* provide data or context if needed */);
 
-  fs.writeFileSync(outputFilePath, html);
+  // Minify the HTML content
+  const minifiedHtml = minify(html, minifyOptions);
+
+  fs.writeFileSync(outputFilePath, minifiedHtml);
   console.log(`Compiled ${file} to ${path.basename(file, '.hbs')}.html`);
 });
